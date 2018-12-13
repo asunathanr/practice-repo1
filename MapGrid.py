@@ -1,6 +1,7 @@
 from coord import Coord
-class MapGrid:
 
+
+class MapGrid:
     def __init__(self, xsize: int, ysize: int, coords: list):
         self.xsize = xsize
         self.ysize = ysize
@@ -10,10 +11,6 @@ class MapGrid:
             for j in range(0, ysize):
                 new.append(0)
             self.gridArea.append(new)
-
-
-    def neighbors(self, coord: (int, int)) -> list:
-        pass
 
     def is_adjacent(self,coord1,coord2):
         if self.is_valid_coord(coord1) and self.is_valid_coord(coord2):
@@ -33,7 +30,7 @@ class MapGrid:
         return True
 
     def is_adjacent_position(self, coord1, coord2):
-        md = abs(coord1.x-coord2.x)+abs(coord1.y-coord2.y)
+        md = abs(coord1.x - coord2.x) + abs(coord1.y - coord2.y)
         if md == 1:
             return True
         return False
@@ -50,3 +47,16 @@ class MapGrid:
             if self.is_adjacent(coord, i):
                 neighbors.append(i)
         return neighbors
+
+    def insert_obstacle(self, coord: Coord) -> None:
+        if self.is_valid_coord(coord):
+            self.gridArea[coord.x][coord.y] = 1
+
+    def obstacles(self) -> list:
+        li = []
+        for i in range(0, self.xsize):
+            for j in range(0, self.ysize):
+                if self.gridArea[i][j] != 0:
+                    li.append(Coord(i, j))
+        return li
+
