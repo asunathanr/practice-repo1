@@ -12,13 +12,21 @@ class MapGrid:
                 new.append(0)
             self.gridArea.append(new)
 
-    def is_adjacent(self,coord1,coord2):
+    def is_adjacent(self, coord1: Coord, coord2: Coord) -> bool:
+        """
+        Is coordinate one adjacent to coordinate 2?
+        TODO: Do we count coord1 == coord2 as being adjacent?
+        """
         if self.is_valid_coord(coord1) and self.is_valid_coord(coord2):
-            if self.is_adjacent_position(coord1,coord2):
+            if self.is_adjacent_position(coord1, coord2):
                 return True
         return False
 
-    def is_valid_coord(self,coord):
+    def is_valid_coord(self, coord: Coord) -> bool:
+        """
+        :param coord:
+        :return: If coordinate is in gridArea
+        """
         if coord.x < 0:
             return False
         if coord.y < 0:
@@ -29,13 +37,18 @@ class MapGrid:
             return False
         return True
 
-    def is_adjacent_position(self, coord1, coord2):
+    def is_adjacent_position(self, coord1: Coord, coord2: Coord) -> bool:
         md = abs(coord1.x - coord2.x) + abs(coord1.y - coord2.y)
         if md == 1:
             return True
         return False
 
-    def adjacent(self, coord) -> list:
+    def adjacent(self, coord: Coord) -> list:
+        """
+
+        :param coord:
+        :return: All neighbors of coord in a list. (A coord with no neighbors would return empty list)
+        """
         raw_neighbors = [
             Coord(coord.x, coord.y + 1),
             Coord(coord.x, coord.y - 1),
