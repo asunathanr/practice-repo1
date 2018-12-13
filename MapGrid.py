@@ -38,8 +38,8 @@ class MapGrid:
         return True
 
     def is_adjacent_position(self, coord1: Coord, coord2: Coord) -> bool:
-        md = abs(coord1.x - coord2.x) + abs(coord1.y - coord2.y)
-        if md == 1:
+        manhattan_dist = abs(coord1.x - coord2.x) + abs(coord1.y - coord2.y)
+        if manhattan_dist == 1:
             return True
         return False
 
