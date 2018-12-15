@@ -1,6 +1,7 @@
 import unittest
-from MapGrid import *
-from coord import Coord
+from AStar import AStar
+from MapGrid import MapGrid
+from weighted_coord import Coord, WeightedCoord
 
 
 # File: map_grid_test.py
@@ -32,9 +33,37 @@ class GridTest(unittest.TestCase):
 
 
 class ObstacleGridTest(unittest.TestCase):
+    """
+    Test obstacle mechanism in MapGrid
+    """
     def setUp(self):
         self.grid = MapGrid(3, 3, [])
+        self.obstacle_grid = MapGrid(3, 3, [Coord(1, 1), Coord(0, 1)])
 
     def test_add_obstacle(self):
         self.grid.insert_obstacle(Coord(1, 1))
         self.assertEqual([Coord(1, 1)], self.grid.obstacles())
+
+
+class SimpleAStarTest(unittest.TestCase):
+    def setUp(self):
+        self.grid = AStar(2, 2, [])
+
+    def test_initialize(self):
+        open_set, closed_set = self.grid.initialize(Coord(1, 1))
+        self.assertEqual({WeightedCoord(0, 1, 1)}, open_set)
+        self.assertEqual(set(), closed_set)
+
+    def test_invalid_coords(self):
+        invalid1 = Coord(-1, -1)
+        invalid2 = Coord(5, 5)
+        result = self.grid.a_star(invalid1, invalid2)
+        self.assertEqual(None, result)
+
+    def test_simple_path(self):
+        path = set(self.grid.a_star(Coord(0, 0), Coord(1, 1)))
+        self.assertEqual({WeightedCoord(0, 0, 0), WeightedCoord(1, 1, 0), WeightedCoord(0, 1, 1)}, path)
+
+    def test_pick_current(self):
+        current = self.grid.pick_current({WeightedCoord(1, 1, 1), WeightedCoord(2, 2, 2)})
+        self.assertEqual(WeightedCoord(1, 1, 1), current)
