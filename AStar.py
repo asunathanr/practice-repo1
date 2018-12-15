@@ -1,4 +1,5 @@
-from MapGrid import *
+from MapGrid import MapGrid
+from weighted_coord import Coord, WeightedCoord
 
 
 class AStar(MapGrid):
